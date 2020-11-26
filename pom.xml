@@ -96,6 +96,7 @@
             <optional>true</optional>
         </dependency>
     </dependencies>
+<!--    阿里云镜像-->
     <repositories>
         <repository>
             <id>central</id>

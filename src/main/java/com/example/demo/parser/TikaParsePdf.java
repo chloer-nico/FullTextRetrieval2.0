@@ -2,30 +2,26 @@ package com.example.demo.parser;
 
 import com.example.demo.util.FileUtil;
 import com.example.demo.processr.Process;
+import com.hankcs.hanlp.dependency.nnparser.util.Log;
 import org.apache.tika.Tika;
 import org.apache.tika.exception.TikaException;
+import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * @author dhx
+ * tika的解析，传入一个文件，将其解析为string类型
+ * return:处理完成的String类型
  */
+@Component
 public class TikaParsePdf {
-    public static void main(final String[] args) throws IOException,TikaException {
-        //新建一个list用来存放文件路径
-        List<File> filepath;
-
-        //目标文件夹路径
-        String target="D:\\大三上课程\\testFile";
-        //调用方法读取文件夹下所有的pdf,doc,docx文件
-        filepath= FileUtil.getFileList(target);
+    public static String  parse(File file) {
         Tika tika = new Tika();
-        System.out.println("链表长度为：" + filepath.size());
-            for(int i=0;i<filepath.size();i++) {
-                //获取链表中的单个文件
-                File file = filepath.get(i);
+        String result = "";
                 //文件名
                 String fileName=file.getName();
                 //文件路径
@@ -40,21 +36,22 @@ public class TikaParsePdf {
                 else if(fileName.endsWith(".docx")){
                     System.out.println("docx文件为：" + filePath);
                 }
+
                 try{
                     //处理,已知tika有部分文档无法解析，比如存在图片的文档
-                    String content = tika.parseToString(file);
-                    if(content!=null){
-                        content = Process.delete(content);
-                        System.out.println("第" + (i+1) + "个文件内容为：");
-                        System.out.print(content);
+                    result = tika.parseToString(file);
+                    if(result!=null){
+                        //处理格式
+                        result = Process.delete(result);
+                        Log.INFO_LOG("tika解析成功！\n");
+                        Log.INFO_LOG(result);
                     }
                 } catch (Exception e) {
-                    System.out.println("tika解析失败！");
+                    Log.INFO_LOG("tika解析失败！\n");
                     e.printStackTrace();
                 }
-
+        return result;
         }
-    }
 }
 
 
