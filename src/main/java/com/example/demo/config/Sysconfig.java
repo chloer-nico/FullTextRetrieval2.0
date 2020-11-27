@@ -40,4 +40,5 @@ public class Sysconfig {
     public void setDocs(String docs) {
         this.docs = docs;
     }
+
 }

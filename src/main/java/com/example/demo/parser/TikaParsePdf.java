@@ -47,6 +47,7 @@ public class TikaParsePdf {
                         Log.INFO_LOG(result);
                     }
                 } catch (Exception e) {
+                    result="";
                     Log.INFO_LOG("tika解析失败！\n");
                     e.printStackTrace();
                 }
